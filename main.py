@@ -77,7 +77,7 @@ class MainPage(webapp2.RequestHandler):
         end_date=self.request.get("end_date")
         url+="q="+query+"&begin_date="+begin_date+"&end_date="+end_date
         url+="&page="+str(count/10)
-        key="&api-key=0451890265f0725be9486ecc5a132e66:18:68505529"
+        key="&api-key=******"
         url+=key
         response=urlopen(url)
         js=load(response)
