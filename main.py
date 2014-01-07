@@ -11,7 +11,48 @@ html="""
         <title> NY times data fetching web app</title>
     </head>
     <body>
-        <h2>NewYork Times data explorer</h2>
+        <h2 align="center">NewYork Times data explorer</h2>
+        <style>
+            h2 {
+            font: bold 330%/100% "Lucida Grande";
+            position: relative;
+            color: #A251A5;
+            }
+            body {
+            background-image: url(http://www.vcuieee.com/wp-content/uploads/2013/12/html-page-background.jpg); no-repeat center center fixed;
+            }
+            lable {
+            font:bold 110% "Lucida Grande";
+            color:#D8259D;
+            display:block;
+            margin-left:40%;
+            }
+            input {
+            display:block;
+            margin-left:40%;
+            }
+            p {
+            font:bold 150%"Lucida Grande";
+            position:relative;
+            color:white;
+            }
+            #submit {
+            width: 180px;
+            height: 60px;
+	    background-color: #F18DD1;
+	    color: #FFFFFF;
+	    border-radius: 5px;
+	    border: 4px solid #CB3C9C;
+	    font-family: Verdana, Arial, Sans-Serif;
+	    font-size: 1em;
+	    font-weight: bold;
+	    text-align: center;
+	    box-shadow: 5px 5px 5px #888;
+	    display: inline-block;
+	    margin-right: 20px;
+            }
+             
+        </style>
         <script type="text/javascript">
             
                     function error_check(){
@@ -43,17 +84,18 @@ html="""
             </script>
             
         <form method="post", onSubmit="return error_check();">
+            
             <lable for="key word">Key word:</lable>
             <input name="query", type="text"><br>          
             <lable for="count">Count:</lable>
             <input name="input_num", type="text"><br>
-            <lable for="begin_date">begin date format(yyyymmdd): </lable>
+            <lable for="begin_date">Begin date format(yyyymmdd): </lable>
             <input name="begin_date", type="text"><br>
-            <lable for="end_date">end date format(yyyymmdd): </lable>
+            <lable for="end_date">End date format(yyyymmdd): </lable>
             <input name="end_date", type="text"><br>
-            <p>New York Times API is using keyword search, so please make your key word more specific and time span longer</p>
-            <input type="submit", value="submit query"><br>
-               
+            <p align="center"> <i>This app can get you summaries about your search with the count number you defined, it saves the data in a csv file. New York Times API is using keyword search, so please make your key word more specific and time span longer</i></p>
+            <input type="submit", ID="submit", "value="submit query"><br>
+            
         </form>
     </body>
 </html>
