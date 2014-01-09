@@ -111,42 +111,47 @@ class MainPage(webapp2.RequestHandler):
         self.response.write(html)
             
     def post(self):
-        query=self.request.get("query")
-        input_num=self.request.get("input_num")
-        count=int(input_num)
-        url="http://api.nytimes.com/svc/search/v2/articlesearch.json?"
-        begin_date=self.request.get("begin_date")
-        end_date=self.request.get("end_date")
-        url+="q="+query+"&begin_date="+begin_date+"&end_date="+end_date
-        url+="&page="+str(count/10)
-        key="&api-key=******"
-        url+=key
-        response=urlopen(url)
-        js=load(response)
-
-        self.response.write("Your key word is: "+query+" with count of "+input_num)       
-        self.response.write(" Between:"+ begin_date+"and"+end_date+" the related search results are as follows: "+ "\n")        
-        temp=[['time stamp','url','lead paragraph','abstract']]
+        while True:
+            query=self.request.get("query")
+            input_num=self.request.get("input_num")
+            count=int(input_num)
+            url="http://api.nytimes.com/svc/search/v2/articlesearch.json?"
+            begin_date=self.request.get("begin_date")
+            end_date=self.request.get("end_date")
+            url+="q="+query.encode('utf-8','ignore')+"&begin_date="+begin_date+"&end_date="+end_date
+            url+="&page="+str(count/10)
+            key="&api-key=0451890265f0725be9486ecc5a132e66:18:68505529"
+            url+=key
+            try:
+                response=urlopen(url)
+                js=load(response)
+                self.response.write("Your key word is: "+query+" with count of "+input_num)       
+                self.response.write(" Between:"+ begin_date+"and"+end_date+" the related search results are as follows: "+ "\n")        
+                temp=[['time stamp','url','lead paragraph','abstract']]
+            except HTTPError as e:
+                self.response.write("invalid search, please modify your key words, begin date or end date!")
+                break
         
-        try:
+            try:
                         
-            for story in js['response']['docs']:
+                for story in js['response']['docs']:
                
-                if not story['lead_paragraph']:
-                    story['lead_paragraph']=''
-                if not story['abstract']:
-                    story['abstract']=''
+                    if not story['lead_paragraph']:
+                        story['lead_paragraph']=''
+                    if not story['abstract']:
+                        story['abstract']=''
                     
-                temp.append([story['pub_date'],story['web_url'],story['lead_paragraph'].encode('utf-8','ignore'), story['abstract'].encode('utf-8','ignore')])
-            self.response.headers['Content-Type']='application/csv'
-            writer=csv.writer(self.response.out,delimiter='\t')
+                    temp.append([story['pub_date'],story['web_url'],story['lead_paragraph'].encode('utf-8','ignore'), story['abstract'].encode('utf-8','ignore')])
+                self.response.headers['Content-Type']='application/csv'
+                writer=csv.writer(self.response.out,delimiter='\t')
                 
-            for i in range(len(temp)):
-                writer.writerow(temp[i][0:4])
-        except Exception,e:
-            self.response.write(str(e))
-            
-   
+                for i in range(len(temp)):
+                    writer.writerow(temp[i][0:4])
+            except Exception,e:
+                self.response.write(str(e))
+                break
+            break
+  
 
 
 app = webapp2.WSGIApplication([
