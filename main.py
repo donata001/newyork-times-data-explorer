@@ -115,6 +115,24 @@ class MainPage(webapp2.RequestHandler):
             query=self.request.get("query")
             input_num=self.request.get("input_num")
             count=int(input_num)
+            #escape non-alphabet char, add "AND" to each key word
+            query=[]
+            
+            for char in raw_query.strip():
+                if char.isalpha() or char.isdigit():        
+                    query.append(char)
+                else:
+                    if query:
+                        if query[-1]=='AND':
+                            pass
+                        else:
+                            query.append('AND')
+                    else:
+                        pass
+            if query[-1]=='AND':
+                 del query[-1]
+            query=''.join(query)
+
             url="http://api.nytimes.com/svc/search/v2/articlesearch.json?"
             begin_date=self.request.get("begin_date")
             end_date=self.request.get("end_date")
